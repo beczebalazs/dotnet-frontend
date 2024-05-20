@@ -1,15 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "../pages/login";
 import SignUpPage from "../pages/sign-up";
-import ResetPasswordPage from "../pages/reset-password";
+import HomePage from "../pages/home";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate replace to="/login" />} />
+      <Route path="/" element={<HomePage/>} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
-      <Route path="/reset-password" element={<ResetPasswordPage />} />
     </Routes>
   );
 };
