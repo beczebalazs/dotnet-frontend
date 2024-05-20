@@ -2,9 +2,14 @@ import Layout from "../../components/common/layout/layout";
 import { Stack, Typography, Box, Button } from "@mui/material";
 import useGetCurrentUserQuery from "../../hooks/user/useGetCurrentUserQuery";
 import { useNavigate } from "react-router";
+import { useAppSelector } from "../../store/redux";
+import { userIdSelector } from "../../store/auth/selector";
 
 const HomePage = () => {
-  const user = useGetCurrentUserQuery();
+  const userId = useAppSelector(userIdSelector);
+
+  const user = useGetCurrentUserQuery(userId);
+  
   const navigate = useNavigate();
   return (
     <Layout isScrollable={false}>

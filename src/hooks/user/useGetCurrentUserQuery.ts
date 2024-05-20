@@ -1,15 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getCurrentUser } from '../../services/user';
-import { userIdSelector } from '../../store/auth/selector';
-import { useAppSelector } from '../../store/redux';
 
-const useGetCurrentUserQuery = () => {
-	const userId = useAppSelector(userIdSelector);
+const useGetCurrentUserQuery = (id?: string) => {
+	
 
 	return useQuery({
-		queryKey: ['currentUser'],
-		queryFn: () => getCurrentUser(userId),
+		queryKey: ['currentUser', id],
+		queryFn: () => getCurrentUser(id),
 	});
 };
 

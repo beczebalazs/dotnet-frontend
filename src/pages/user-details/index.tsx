@@ -1,13 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useForm, Controller, FieldValues } from "react-hook-form";
-import {
-  Box,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Paper, Stack, TextField, Typography, Button } from "@mui/material";
 import useGetCurrentUserQuery from "../../hooks/user/useGetCurrentUserQuery";
 import usePatchCurrentUserMutation from "../../hooks/user/usePatchCurrentUserMutation";
 import Layout from "../../components/common/layout/layout";
@@ -15,7 +8,10 @@ import { useAppSelector } from "../../store/redux";
 import { userIdSelector } from "../../store/auth/selector";
 
 const UserDetailsPage = () => {
-  const { data: user } = useGetCurrentUserQuery();
+  const userId = useAppSelector(userIdSelector);
+
+  const { data: user } = useGetCurrentUserQuery(userId);
+
   const { control, handleSubmit, reset } = useForm<FieldValues>({
     mode: "onChange",
     defaultValues: {
@@ -27,8 +23,6 @@ const UserDetailsPage = () => {
       role: "", // Ez nem módosítható, de megjelenítjük
     },
   });
-
-  const userId = useAppSelector(userIdSelector);
 
   const patchCurrentUserMutation = usePatchCurrentUserMutation();
 
@@ -53,8 +47,12 @@ const UserDetailsPage = () => {
 
   return (
     <Layout>
-      <Stack sx={{ width: "100%", height: '100%' }} alignItems={'center'} justifyContent={'center'}>
-        <Paper sx={{ padding: 4, width: '400px' }}>
+      <Stack
+        sx={{ width: "100%", height: "100%" }}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <Paper sx={{ padding: 4, width: "400px" }}>
           <Typography
             variant="h4"
             sx={{ marginBottom: 2, textAlign: "center" }}

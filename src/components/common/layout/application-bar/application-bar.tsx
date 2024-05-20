@@ -5,11 +5,14 @@ import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import { AppBarHeight, companyName } from '../../../../constants/common.constants';
 import useGetCurrentUserQuery from '../../../../hooks/user/useGetCurrentUserQuery';
+import { useAppSelector } from '../../../../store/redux';
+import { userIdSelector } from '../../../../store/auth/selector';
 
 
 const ApplicationBar: FC = () => {
-
-  const user = useGetCurrentUserQuery();
+  const userId = useAppSelector(userIdSelector);
+  
+  const user = useGetCurrentUserQuery(userId);
 
   const userInitials = user.data?.name
   ?  user.data?.name

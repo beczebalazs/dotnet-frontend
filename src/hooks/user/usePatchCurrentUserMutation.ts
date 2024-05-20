@@ -8,7 +8,7 @@ const usePatchCurrentUserMutation = () => {
 	const { enqueueSnackbar } = useSnackbar();
 
 	return useMutation({
-		mutationKey: ['currentUser'],
+		mutationKey: ['patch-user'],
 		onError: () => {
 			enqueueSnackbar('Saving error!', {
 				variant: 'error',

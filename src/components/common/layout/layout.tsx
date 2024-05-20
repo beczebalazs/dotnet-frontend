@@ -14,9 +14,11 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import useGetCurrentUserQuery from "../../../hooks/user/useGetCurrentUserQuery";
 import LoginIcon from "@mui/icons-material/Login";
-import { useAppDispatch } from "../../../store/redux";
+import { useAppDispatch, useAppSelector } from "../../../store/redux";
 import { setUserId } from "../../../store/auth/slice";
 import { useQueryClient } from "@tanstack/react-query";
+import { userIdSelector } from "../../../store/auth/selector";
+import KeyIcon from '@mui/icons-material/Key';
 
 type LayoutProps = {
   children: ReactNode;
@@ -48,11 +50,19 @@ const adminMenuItems = [
     icon: <GroupIcon sx={{ mr: { xs: 0, lg: 2 }, ml: { xs: 0, lg: 1 } }} />,
   },
   {
-    key: "gyms",
-    href: "/gyms",
-    label: "Gyms",
+    key: "entry",
+    href: "/entry",
+    label: "Entry",
     icon: (
       <FitnessCenterIcon sx={{ mr: { xs: 0, lg: 2 }, ml: { xs: 0, lg: 1 } }} />
+    ),
+  },
+  {
+    key: "entries",
+    href: "/entries",
+    label: "Entries",
+    icon: (
+      <KeyIcon sx={{ mr: { xs: 0, lg: 2 }, ml: { xs: 0, lg: 1 } }} />
     ),
   },
   {
@@ -73,9 +83,11 @@ const Layout: FC<LayoutProps> = ({ children, isScrollable = true }) => {
     theme.breakpoints.down("lg")
   );
 
+  const userId = useAppSelector(userIdSelector);
+
   const queryClient = useQueryClient();
 
-  const user = useGetCurrentUserQuery();
+  const user = useGetCurrentUserQuery(userId);
 
   return (
     <Stack sx={{ height: "100vh" }}>

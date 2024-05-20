@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { useSnackbar } from 'notistack';
-import { postMembership } from '../../services/memberhips';
+import { deleteUser } from '../../services/user';
 
-const usePostMembershipMutation = () => {
+const useDeleteUserMutation = () => {
 
 	const { enqueueSnackbar } = useSnackbar();
 
 	return useMutation({
-		mutationKey: ['buy-membership'],
-		mutationFn: (vars: { payload: any }) => postMembership(vars.payload),
+		mutationKey: ['delete-user'],
+		mutationFn: (vars: { id: string }) => deleteUser(vars.id),
 		onError: () =>
 			enqueueSnackbar('Error', {
 				variant: 'error',
@@ -22,5 +22,5 @@ const usePostMembershipMutation = () => {
 	});
 };
 
-export default usePostMembershipMutation;
+export default useDeleteUserMutation;
 
