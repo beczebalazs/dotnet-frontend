@@ -17,3 +17,6 @@ export const deleteMembership = async (id: string) =>
 
 export const getClientMemberships = async (id: string) =>
   (await httpClient.get(`/get-client-memberships/${id}`)).data;
+
+  export const getMembershipById = async (id: string) =>
+  (await httpClient.get(`/get-membership-by-id/${id}`)).data;

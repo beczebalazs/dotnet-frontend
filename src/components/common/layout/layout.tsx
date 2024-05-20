@@ -19,6 +19,7 @@ import { setUserId } from "../../../store/auth/slice";
 import { useQueryClient } from "@tanstack/react-query";
 import { userIdSelector } from "../../../store/auth/selector";
 import KeyIcon from '@mui/icons-material/Key';
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 type LayoutProps = {
   children: ReactNode;
@@ -39,6 +40,12 @@ const clientMenuItems = [
     href: "/buy-membership",
     label: "Buy membership",
     icon: <AddCardIcon sx={{ mr: { xs: 0, lg: 2 }, ml: { xs: 0, lg: 1 } }} />,
+  },
+  {
+    key: "my-memberships",
+    href: "/my-memberships",
+    label: "My memberships",
+    icon: <LoyaltyIcon sx={{ mr: { xs: 0, lg: 2 }, ml: { xs: 0, lg: 1 } }} />,
   },
 ];
 

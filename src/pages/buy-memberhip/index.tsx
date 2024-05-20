@@ -1,10 +1,11 @@
-import React from 'react';
-import { Box, Grid, Paper, Typography, Button, Stack } from '@mui/material';
-import Layout from '../../components/common/layout/layout';
-import useGetMemberhipsQuery from '../../hooks/memberhips/useGetMemberhipsQuery';
-import usePostMembershipMutation from '../../hooks/memberhips/usePostMembershipMutation';
-import { useAppSelector } from '../../store/redux';
-import { userIdSelector } from '../../store/auth/selector';
+import { Box, Grid, Paper, Typography, Button, Stack } from "@mui/material";
+import Layout from "../../components/common/layout/layout";
+import useGetMemberhipsQuery from "../../hooks/memberhips/useGetMemberhipsQuery";
+import usePostMembershipMutation from "../../hooks/memberhips/usePostMembershipMutation";
+import { useAppSelector } from "../../store/redux";
+import { userIdSelector } from "../../store/auth/selector";
+import useGetClientMembershipsQuery from "../../hooks/memberhips/useGetClientMembershipsQuery";
+import { useEffect, useState } from "react";
 
 const BuyMembershipsPage = () => {
   const { data: memberships } = useGetMemberhipsQuery();
@@ -12,7 +13,21 @@ const BuyMembershipsPage = () => {
 
   const userId = useAppSelector(userIdSelector);
 
-  const handleBuyClick = (membershipId: string, gymId: string, price: number, entryLimit?: number) => {
+  const userMemberships = useGetClientMembershipsQuery(userId!);
+
+  const [hasValid, setHasValid] = useState(false);
+
+  let hasValidMembership = userMemberships?.data?.some((membership: any) => membership.valid) ?? false;
+
+  useEffect(() => {setHasValid(hasValidMembership)}, [hasValidMembership])
+
+  const handleBuyClick = (
+    membershipId: string,
+    gymId: string,
+    price: number,
+    entryLimit?: number
+  ) => {
+    setHasValid(true);
     const payload = {
       clientId: userId,
       membershipId: membershipId,
@@ -28,7 +43,7 @@ const BuyMembershipsPage = () => {
   return (
     <Layout>
       <Box sx={{ padding: 4 }}>
-        <Typography variant="h4" sx={{ textAlign: 'center', marginBottom: 4 }}>
+        <Typography variant="h4" sx={{ textAlign: "center", marginBottom: 4 }}>
           Buy Memberships
         </Typography>
         <Grid container spacing={4}>
@@ -37,12 +52,14 @@ const BuyMembershipsPage = () => {
               <Paper elevation={3} sx={{ padding: 3 }}>
                 <Stack spacing={2}>
                   <Typography variant="h5">{membership.name}</Typography>
-                  <Typography variant="body1">Price: {membership.price} HUF</Typography>
                   <Typography variant="body1">
-                    Validity Days: {membership.validityDays ?? 'N/A'}
+                    Price: {membership.price} HUF
                   </Typography>
                   <Typography variant="body1">
-                    Entry Limit: {membership.entryLimit ?? 'Unlimited'}
+                    Validity Days: {membership.validityDays ?? "N/A"}
+                  </Typography>
+                  <Typography variant="body1">
+                    Entry Limit: {membership.entryLimit ?? "Unlimited"}
                   </Typography>
                   <Typography variant="body1">
                     Valid From: {membership.validFromHour}:00
@@ -51,18 +68,30 @@ const BuyMembershipsPage = () => {
                     Valid To: {membership.validToHour}:00
                   </Typography>
                   <Typography variant="body1">
-                    Daily Usage Limit: {membership.dailyUsageLimit ?? 'Unlimited'}
+                    Daily Usage Limit:{" "}
+                    {membership.dailyUsageLimit ?? "Unlimited"}
                   </Typography>
                   <Typography variant="body1">
-                    Valid Days: {membership.validDaysOfWeek?.join(', ') ?? 'All days'}
+                    Valid Days:{" "}
+                    {membership.validDaysOfWeek[0] !== ""
+                      ? membership.validDaysOfWeek?.join(", ")
+                      : "All days"}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleBuyClick(membership.id, membership.gymId, membership.price)}
-                  >
-                    Buy
-                  </Button>
+                  {!hasValid && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() =>
+                        handleBuyClick(
+                          membership.id,
+                          membership.gymId,
+                          membership.price
+                        )
+                      }
+                    >
+                      Buy
+                    </Button>
+                  )}
                 </Stack>
               </Paper>
             </Grid>

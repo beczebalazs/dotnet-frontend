@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -20,7 +20,7 @@ import usePatchCurrentUserMutation from "../../hooks/user/usePatchCurrentUserMut
 import { useQueryClient } from "@tanstack/react-query";
 
 const ClientsPage = () => {
-  const { data: users, refetch } = useGetCurrentUserQuery();
+  const { data: users } = useGetCurrentUserQuery();
   const deleteUserMutation = useDeleteUserMutation();
   const patchUserMutation = usePatchCurrentUserMutation();
   const [open, setOpen] = useState(false);

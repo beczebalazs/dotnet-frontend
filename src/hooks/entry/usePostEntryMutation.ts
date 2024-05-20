@@ -11,7 +11,7 @@ const usePostEntryMutation = () => {
 		mutationKey: ['entry'],
 		mutationFn: (vars: { payload: any }) => postEntry(vars.payload),
 		onError: () =>
-			enqueueSnackbar('Membership not found', {
+			enqueueSnackbar('Membership not found or inactive', {
 				variant: 'error',
 			}),
 		onSuccess: () => {

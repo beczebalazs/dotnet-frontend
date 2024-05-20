@@ -8,6 +8,7 @@ import MembershipsPage from "../pages/memberships";
 import ClientsPage from "../pages/clients";
 import EntryPage from "../pages/entry";
 import EntriesPage from "../pages/entries";
+import MyMembershipsPage from "../pages/my-memberships";
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
       <Route path="/clients" element={<ClientsPage />} />
       <Route path="/entry" element={<EntryPage />} />
       <Route path="/entries" element={<EntriesPage />} />
+      <Route path="/my-memberships" element={<MyMembershipsPage />} />
     </Routes>
   );
 };
